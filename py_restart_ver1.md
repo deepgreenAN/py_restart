@@ -6,6 +6,8 @@
 ```python
 from pathlib import Path
 from py_restart import enable_counter, multi_count
+
+import time
 ```
 
 #### 一つの場合 
