@@ -1,1 +1,1 @@
-from . import py_restart_ver2
+from .py_restart_ver2 import *
