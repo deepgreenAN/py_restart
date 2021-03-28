@@ -348,7 +348,7 @@ def multi_count():
     return parent.multi_child()
 
 
-def enable_counter(file_path, use_tempfile=True, each_save=True, save_span=1):
+def enable_counter(file_path, use_tempfile=True, each_save=False, save_span=1):
     """
     for文をラップするCounterClosierオブジェクトを返す．with文で展開することで，エラーによる終了時に進捗状況(一時ファイル・保存ファイル)を保存する.
     with文に展開しなくても，each_saveをTrueにすることで，指定したイテレーション回数ごとに保存することもできる．

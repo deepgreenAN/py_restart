@@ -1,14 +1,9 @@
 # イテレーション時に進捗を保存
-イテレーションが何らかの例外によって途中で終了した場合，その進捗状況を一時ファイルに保存し，再度実行時にそこから開始できる．
+イテレーションが何らかの例外によって途中で終了した場合，その進捗状況を一時保存し，再度実行時にそこから開始できる．さらに任意のオブジェクトを一時保存したり，外部の関数を呼ぶことができる．
 
-### 使い方
+## 使い方
 
-```python
-from pathlib import Path
-from py_restart import enable_counter, multi_count, simple_counter
-```
-
-#### 一つの場合 
+### 一つの場合 
 
 以下のように，`enable_counter`をwith文に添えた返り値(`CounterClosier`オブジェクト)でイテレーターをラップする．イテレーション内でエラーが生じた場合に，一時ファイルを保存し，次回はエラーが起きたイテレーションから再開できる．
 この例では，iが4のときにKeybordInterruptを行った後，もう一度実行した結果である．
@@ -31,7 +26,7 @@ with enable_counter(tempfile_path) as counter:
     9
     
 
-#### 一つの場合(毎回保存する場合) 
+### 一つの場合(指定回数ごとに保存する場合) 
 
 with文を利用したくない場合，`enable_counter`の引数`each_save`をTrueにするか，`simple_couonter`が利用できる．どちらも異常終了時に一時ファイルを保存するわけではなく，イテレーションの指定回数ごとに保存する．また，`simple_counter`は直接ジェネレータを出力する．
 
@@ -52,7 +47,7 @@ for i in simple_counter(tempfile_path, range(10)):
     9
     
 
-#### 二つ以上の場合 
+### 二つ以上の場合 
 
 `enable_counter`あるいは`simple_counter`のみでは，一つのfor文が終了したときに一時ファイルが削除されてしまうため，二つ以上for文が連続する場合に進捗を保存できない．`multi_count`を利用すればそのインデントブロックが終了するまで一時ファイルを残すことができる．以下の例では，一つ目のfor文が終了したのちにiが2の時点でKeybordInterruptを行い，再度実行した結果である
 
@@ -79,7 +74,7 @@ with multi_count():
     2: 4
     
 
-#### 再帰的に使う場合 
+### 再帰的に使う場合 
 
 以下の例では，iが1,jが2の時にKeybordInterruptを行ったのち，再度実行したものである．
 
@@ -110,7 +105,8 @@ with enable_counter(tempfile_path3) as outer_counter:
 
 #### オブジェクトの一時保存
 
-イテレーションの進捗保存だけでなく，特定のオブジェクトも一時的に保存できる．その場合，以下のように`enable_counter`の返り値`CounterClosier`の`save_load_object`メソッドを利用できる．もちろん`save_load_object`はイテレーション内に記述するべきではないが，withブロック内に記述する必要がある．登録したオブジェクトがイミュータブルな場合，イテレーション途中で`CounterClosier`の`object`プロパティを明示的に変更する．  
+イテレーションの進捗保存だけでなく，特定のオブジェクトも一時的に保存できる．その場合，以下のように`enable_counter`の返り値`CounterClosier`の`save_load_object`メソッドを利用できる．もちろん`save_load_object`はイテレーション内に記述
+するべきではないが，withブロック内に記述する必要がある．登録したオブジェクトがイミュータブルな場合，イテレーション途中で`CounterClosier`の`object`プロパティを明示的に変更する．  
 
 この例では，iが4のときにKeybordInterruptを行った後，もう一度実行した結果である．
 
@@ -192,7 +188,7 @@ for i in counter(range(10)):
     sum: 45
     
 
-#### 任意の保存・ロード関数の利用 
+### 任意の保存・ロード関数の利用 
 
 機械学習における重みファイルの保存など，オブジェクトの保存に外部の関数を利用したい場合がある．その場合は`CounterClosier`の`save_load_funcs`メソッドを利用できる．`save_load_funcs`の引数は`save_funcs`(保存用の関数のリスト),`load_funcs`(読み込み用の関数のリスト)，`func_paths`(二つの関数の引数となるパスのリスト)の3つのリストを対応するように渡す必要がある．保存用の関数・読み込み用の関数，はどちらもパスのみを引数とするため,任意の関数を利用する場合は無名関数などを用いて調節する必要がある．なお，`load_funcs`に与える関数は，保存したいオブジェクトをグローバル変数にして変更する必要があることに注意する．
 
@@ -329,18 +325,18 @@ with multi_count():
 
     Exception                                 Traceback (most recent call last)
 
-    <ipython-input-56-3b3e455f2f62> in <module>
+    <ipython-input-31-3b3e455f2f62> in <module>
           1 with multi_count():
     ----> 2     with multi_count():
           3         pass
     
 
-    <ipython-input-32-06c8301f69c3> in __enter__(self)
-          8     def __enter__(self):
-          9         if config.parent is not None:
-    ---> 10             raise Exception("MultiCount has already opend. cannot open another MultiCount")
-         11 
-         12         config.parent = self.parent_restart
+    E:\py_restart\py_restart_ver3.py in __enter__(self)
+         26     def __enter__(self):
+         27         if config.parent is not None:
+    ---> 28             raise Exception("MultiCount has already opend. cannot open another MultiCount")
+         29 
+         30         config.parent = self.parent
     
 
     Exception: MultiCount has already opend. cannot open another MultiCount
