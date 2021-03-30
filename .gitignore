@@ -11,3 +11,6 @@ Untitled.ipynb
 .vscode/
 .tmp
 wiki.md
+build/
+dist/
+py_restart.egg-info/
