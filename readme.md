@@ -1,7 +1,12 @@
 # イテレーション時に進捗を保存
 イテレーションが何らかの例外によって途中で終了した場合，その進捗状況を一時保存し，再度実行時にそこから開始できる．さらに任意のオブジェクトを一時保存したり，外部の関数を呼ぶことができる．
 
-## インストール
+## test
+クローンしたディレクトリで
+```
+python setup.py test
+```
+## installation
 ```
 pip install git+https://github.com/deepgreenAN/py_restart.git
 ```

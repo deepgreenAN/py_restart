@@ -12,4 +12,5 @@ setup(
     version='0.0.0',
     packages=packages,
     install_requires=install_requires,
+    test_suit="test"
 )
