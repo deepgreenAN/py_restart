@@ -202,7 +202,7 @@ for i in counter(range(10)):
 
 ### 任意の保存・ロード関数の利用 
 
-機械学習における重みファイルの保存など，オブジェクトの保存に外部の関数を利用したい場合がある．その場合は`CounterClosier`の`save_load_funcs`メソッドを利用できる．`save_load_funcs`の引数は`save_funcs`(保存用の関数のリスト),`load_funcs`(読み込み用の関数のリスト)，`func_paths`(二つの関数の引数となるパスのリスト)の3つのリストを対応するように渡す必要がある．保存用の関数・読み込み用の関数，はどちらもパスのみを引数とするため,任意の関数を利用する場合は無名関数などを用いて調節する必要がある．なお，`load_funcs`に与える関数は，保存したいオブジェクトをグローバル変数にして変更する必要があることに注意する．
+機械学習における重みファイルの保存など，オブジェクトの保存に外部の関数を利用したい場合がある．その場合は`CounterClosier`の`save_load_funcs`メソッドを利用できる．`save_load_funcs`の引数は`save_funcs`(保存用の関数のリスト),`load_funcs`(読み込み用の関数のリスト)，`func_paths`(二つの関数の引数となるパスのリスト)の3つのリストを対応するように渡す必要がある．保存用の関数・読み込み用の関数，はどちらもパスのみを引数とするため,任意の関数を利用する場合は無名関数などを用いて調節する必要がある．なお，`load_funcs`に与える関数を一から作成する場合は，保存したいオブジェクトをグローバル変数にして変更する必要があることに注意する．
 
 
 ```python
@@ -230,7 +230,6 @@ save_funcs = [lambda save_path: torch.save(linear_model.state_dict(), save_path)
 
 # pytorchのモデルを読み込む用の関数
 def load_linear_model(load_path):
-    global linear_model  # こちらの宣言は必要ない
     linear_model.load_state_dict(torch.load(load_path))
 # ndarrayを読み込む用の関数
 def load_temp_array(load_path):
