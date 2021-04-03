@@ -15,6 +15,9 @@ pip install git+https://github.com/deepgreenAN/py_restart.git
 python setup.py install
 ```
 ## 使い方
+```python
+from py_restart import enable_counter, simple_counter, multi_count 
+```
 ### 一つの場合 
 
 以下のように，`enable_counter`をwith文に添えた返り値(`CounterClosier`オブジェクト)でイテレーターをラップする．イテレーション内でエラーが生じた場合に，一時ファイルを保存し，次回はエラーが起きたイテレーションから再開できる．
@@ -40,7 +43,7 @@ with enable_counter(tempfile_path) as counter:
 
 ### 一つの場合(指定回数ごとに保存する場合) 
 
-with文を利用したくない場合，`enable_counter`の引数`each_save`をTrueにするか，`simple_couonter`が利用できる．どちらも異常終了時に一時ファイルを保存するわけではなく，イテレーションの指定回数ごとに保存する．また，`simple_counter`は直接ジェネレータを出力する．
+with文を利用したくない場合，`enable_counter`の引数`each_save`をTrueにするか，`simple_couonter`が利用できる．どちらもイテレーションの指定回数(デフォルトは1)ごとに保存する．(`enable_counter`をwith分に添えて利用する場合は異常終了時にも保存される．)また，`simple_counter`は直接ジェネレータを出力する．
 
 
 ```python
