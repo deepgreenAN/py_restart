@@ -162,7 +162,7 @@ with enable_counter(tempfile_path) as counter:
     sum: 45
     
 
-毎回保存する場合，つまり`enable_counter`の引数`each_save`を`True`にした場合，with文を用いなくても保存できる．しかしイテレーションの指定回数毎にpickleで保存するため，データの読み込み・書き出しのオーバーヘッドが加わることに注意する．`enable_counter`の引数`save_span`で回数を指定する．
+毎回保存する場合，つまり`enable_counter`の引数`each_save`を`True`にした場合，with文を用いなくても保存できる．しかしイテレーションの指定回数毎にpickleで保存するため，データの書き出しのオーバーヘッドが加わることに注意する．`enable_counter`の引数`save_span`で回数を指定する．
 
 指定回数ごとに保存することによって，エラーで検知できないような終了(例えば，Google colabの接続切れなど)をしてしまっても，一次ファイルを保存できるメリットがある．
 
