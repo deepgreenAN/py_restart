@@ -64,7 +64,6 @@ class CounterClosier():
         self.load_funcs = []
         self.save_funcs = []
         self.func_paths = []
-        self.src_dsts = []
         
         
         # 一時ファイルの読み込み
